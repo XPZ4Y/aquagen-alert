@@ -1,0 +1,60 @@
+[project]
+name = "aqua-alert"
+version = "0.1.0"
+description = "Sensorless-first early disease & water-quality alerts for small aquaculture farms (Python + uv)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "AquaAlert team" }]
+dependencies = [
+    "pydantic>=2.6",
+    "httpx>=0.27",
+    "fastapi>=0.110",
+    "python-multipart>=0.0.9",
+    "uvicorn[standard]>=0.29",
+    "typer>=0.12",
+    "rich>=13.7",
+    "pillow>=10.3",
+]
+
+[project.optional-dependencies]
+# Transfer-learning extras. Not needed for the demo/API path.
+ml = [
+    "torch>=2.2",
+    "torchvision>=0.17",
+    "transformers>=4.44",
+    "huggingface-hub>=0.24",
+    "scikit-learn>=1.4",
+    "kagglehub>=0.2",
+]
+dev = ["pytest>=8.0", "ruff>=0.5"]
+
+[project.scripts]
+aqua-alert = "aqua_alert.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aqua_alert"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4", "PT"]
+# Deliberate, documented exceptions for a field tool that must never crash in a village:
+ignore = [
+    "BLE001",   # blind except: every external call degrades gracefully by design
+    "S110", "S112",  # try/except/pass+continue: provider/model failures fall back
+    "DTZ",      # naive datetimes: pond schedules are local solar time, not UTC-critical
+    "B008",     # typer.Option(...) in defaults is the documented Typer idiom
+    "ISC004",   # multi-line strings inside collection literals: catalogue readability
+    "E501",     # long citation strings must not be split
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

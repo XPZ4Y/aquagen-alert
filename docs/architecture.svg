@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 700" width="1180" height="700" font-family="Segoe UI, system-ui, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d2b1e"/><stop offset="1" stop-color="#071a12"/>
+    </linearGradient>
+    <marker id="arw" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 z" fill="#7fd6a6"/>
+    </marker>
+  </defs>
+  <rect width="1180" height="700" fill="url(#bg)"/>
+
+  <text x="40" y="46" fill="#ffffff" font-size="26" font-weight="700">AquaAlert — sensorless-first early warning architecture</text>
+  <text x="40" y="72" fill="#9fe0bb" font-size="14">Free public data substitutes for the probes a small farm cannot buy · Python 3.10+ · uv-managed · FastAPI</text>
+
+  <!-- data plane -->
+  <rect x="40" y="100" width="1100" height="150" rx="16" fill="#11301f" stroke="#256b47"/>
+  <text x="60" y="128" fill="#9fe0bb" font-size="13" letter-spacing="2">DATA PLANE — all free, all cited</text>
+
+  <g font-size="12.5" fill="#e8fff1">
+    <rect x="62" y="144" width="248" height="92" rx="10" fill="#17422b" stroke="#2f7f54"/>
+    <text x="76" y="168" font-weight="700">Open-Meteo (CC BY 4.0, no key)</text>
+    <text x="76" y="190">air temp · wind · rain · cloud · solar</text>
+    <text x="76" y="210">ERA5 archive from 1940 + 16-day forecast</text>
+    <text x="76" y="228" fill="#8fd9ad">→ replaces rain gauge, anemometer,</text>
+    <text x="76" y="244" fill="#8fd9ad">   air thermometer, and the DO probe at night</text>
+
+    <rect x="328" y="144" width="248" height="92" rx="10" fill="#17422b" stroke="#2f7f54"/>
+    <text x="342" y="168" font-weight="700">Pond IoT datasets</text>
+    <text x="342" y="190">Nigeria aquaponics (12 ponds, 5 s)</text>
+    <text x="342" y="210">Kaggle Pondsdata (74,759 records)</text>
+    <text x="342" y="228" fill="#8fd9ad">→ replaces pH / DO / ammonia / turbidity</text>
+    <text x="342" y="244" fill="#8fd9ad">   probes as training baselines</text>
+
+    <rect x="594" y="144" width="248" height="92" rx="10" fill="#17422b" stroke="#2f7f54"/>
+    <text x="608" y="168" font-weight="700">Sentinel-2 NDCI + NASA PACE</text>
+    <text x="608" y="190">10 m · 5-day · free · open</text>
+    <text x="608" y="210">bloom / chlorophyll-a index per pond</text>
+    <text x="608" y="228" fill="#8fd9ad">→ replaces the chlorophyll probe</text>
+
+    <rect x="860" y="144" width="258" height="92" rx="10" fill="#17422b" stroke="#2f7f54"/>
+    <text x="874" y="168" font-weight="700">Kaggle / Roboflow / F4K images</text>
+    <text x="874" y="190">2,444 CC0 South-Asia fish photos</text>
+    <text x="874" y="210">1,043 annotated tilapia · 27,370 F4K</text>
+    <text x="874" y="228" fill="#8fd9ad">→ replaces the vet’s microscope + night watch</text>
+  </g>
+
+  <!-- thresholds band -->
+  <rect x="40" y="272" width="1100" height="86" rx="16" fill="#152b3a" stroke="#2f6f8f"/>
+  <text x="60" y="298" fill="#9fd6f0" font-size="13" letter-spacing="2">DECISION RULES — the expert in a box</text>
+  <g font-size="13" fill="#eaf6ff">
+    <text x="62" y="322">FAO x6709e ch.2.5 — species DO minima (carp 3, tilapia 2 mg/L)</text>
+    <text x="62" y="344">FAO AC175E18 ch.18 — % un-ionized NH₃ from pH + temperature (Emerson/EIFAC)</text>
+    <text x="620" y="322">eXtension/SRAC species window table</text>
+    <text x="620" y="344">Tilapia review PMC9640449 — DO 5–7 optimum, NH₃ 0.2 mg/L kill threshold</text>
+  </g>
+
+  <!-- engine -->
+  <rect x="40" y="380" width="530" height="200" rx="16" fill="#0f3a26" stroke="#37a06b"/>
+  <text x="60" y="408" fill="#9fe0bb" font-size="13" letter-spacing="2">PYTHON ENGINE (src/aqua_alert)</text>
+  <g font-size="13" fill="#eafff2">
+    <text x="60" y="434">thresholds.py — envelopes, NH₃ chemistry, DO saturation, feed advice</text>
+    <text x="60" y="456">anomaly.py — robust MAD z-scores vs the pond’s own 14-day baseline</text>
+    <text x="60" y="478">risk.py — severity → weighted fusion → worst-parameter escalation</text>
+    <text x="60" y="500" fill="#ffd166">risk.do_crash_forecast() — pre-dawn DO crash, ~14 h of lead time</text>
+    <text x="60" y="522">disease/classifier.py — ViT transfer learning + abstain-and-refer</text>
+    <text x="60" y="544">pipeline.py — weather + reading + photo → one FarmDay verdict</text>
+    <text x="60" y="566" fill="#8fd9ad">tests/ — 20 tests: chemistry vs FAO tables, banding, dedupe, API</text>
+  </g>
+
+  <!-- outputs -->
+  <rect x="610" y="380" width="530" height="200" rx="16" fill="#3a1f0f" stroke="#a3652f"/>
+  <text x="630" y="408" fill="#ffc99f" font-size="13" letter-spacing="2">FARMER-FACING OUTPUT (deliverable #3)</text>
+  <g font-size="13" fill="#fff3ea">
+    <text x="630" y="434">BAND: GREEN (silent) · YELLOW · ORANGE · RED</text>
+    <text x="630" y="458">SMS ≤160 chars (GSM-7, works on a feature phone)</text>
+    <text x="630" y="480">Kannada IVR voice call — for farmers who cannot read text</text>
+    <text x="630" y="502">WhatsApp photo triage + app screen (screens/farmer_app.html)</text>
+    <text x="630" y="526" fill="#ffd166">Anti-fatigue: 6 h dedupe, hourly for RED, no SMS for GREEN</text>
+    <text x="630" y="550">Escalation: RED also pages the fisheries extension officer</text>
+    <text x="630" y="572" fill="#ffc99f">Cost: ₹10–50 per farm per month (vs ₹8k–25k for one DO probe)</text>
+  </g>
+
+  <!-- arrows -->
+  <g stroke="#7fd6a6" stroke-width="2" fill="none" marker-end="url(#arw)">
+    <path d="M186 244 L186 272"/>
+    <path d="M452 244 L452 272"/>
+    <path d="M718 244 L718 272"/>
+    <path d="M989 244 L989 272"/>
+    <path d="M305 358 L305 380"/>
+    <path d="M640 300 L800 380"/>
+  </g>
+
+  <text x="40" y="622" fill="#9fe0bb" font-size="13">Design rules: (1) degrade — every parameter optional, the verdict says what is missing;  (2) actions, not numbers — one cheap action for today;</text>
+  <text x="40" y="644" fill="#9fe0bb" font-size="13">(3) never cry wolf — GREEN is silenced so RED still means RED;  (4) always cite — every threshold and dataset is attributable (docs/DATA_SOURCES.md).</text>
+  <text x="40" y="676" fill="#6fae8d" font-size="11.5">Weather data by Open-Meteo.com (CC BY 4.0) · Copernicus Sentinel-2 (free, open) · Kaggle datasets per their licenses (incl. CC0) · FAO open access · USGS/EPA Water Quality Portal (doi:10.5066/P9QRKUVJ)</text>
+</svg>
